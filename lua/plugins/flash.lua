@@ -3,8 +3,6 @@ return {
 		"flash.nvim",
 		event = "DeferredUIEnter",
 		for_cat = "general.always",
-		---@type Flash.Config
-		opts = {},
 		keys = {
 			{
 				"s",

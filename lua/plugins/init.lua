@@ -42,6 +42,9 @@ require("lze").load({
 	{ import = "plugins.lualine" },
 	{ import = "plugins.flash" },
 	{ import = "plugins.bufferline" },
+	{ import = "plugins.snacks" },
+	{ import = "plugins.dashboard" },
+	{ import = "plugins.noice" },
 	{
 		"comment.nvim",
 		for_cat = "general.extra",

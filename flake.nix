@@ -160,6 +160,12 @@
             general = {
               ui = with pkgs.vimPlugins; [
                 bufferline-nvim
+                snacks-nvim
+                lualine-nvim
+                dashboard-nvim
+                noice-nvim
+                nui-nvim
+                nvim-notify
               ];
               blink = with pkgs.vimPlugins; [
                 luasnip
@@ -188,7 +194,6 @@
               ];
               always = with pkgs.vimPlugins; [
                 nvim-lspconfig
-                lualine-nvim
                 gitsigns-nvim
                 # vim-sleuth
                 vim-fugitive
