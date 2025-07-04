@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
-
   };
 
   outputs =
@@ -85,12 +84,20 @@
             };
             format = with pkgs; [
               stylua
-              ruff
-              nixfmt
             ];
             nix = with pkgs; [
               nixd
               nix-doc
+              nixfmt-rfc-style
+            ];
+            python = with pkgs; [
+              ruff
+              ty
+              basedpyright
+            ];
+            vue = with pkgs; [
+              vue-language-server
+              typescript-language-server
             ];
             neonixdev = {
               # also you can do this.
@@ -112,7 +119,6 @@
                 lzextras
                 vim-repeat
                 plenary-nvim
-                nvim-notify
               ];
               extra = [
                 nvim-web-devicons
@@ -158,6 +164,14 @@
               lazydev-nvim
             ];
             general = {
+              ai = with pkgs.vimPlugins; [
+                avante-nvim
+                telescope-nvim
+                snacks-nvim
+                copilot-lua
+                mini-pick
+                render-markdown-nvim
+              ];
               ui = with pkgs.vimPlugins; [
                 bufferline-nvim
                 snacks-nvim
@@ -165,6 +179,7 @@
                 dashboard-nvim
                 noice-nvim
                 nui-nvim
+                persistence-nvim
                 nvim-notify
               ];
               blink = with pkgs.vimPlugins; [
@@ -173,6 +188,8 @@
                 blink-cmp
                 blink-compat
                 colorful-menu-nvim
+                blink-cmp-avante
+                blink-cmp-copilot
               ];
               yazi = with pkgs.vimPlugins; [
                 yazi-nvim
@@ -182,6 +199,7 @@
                 mini-icons
                 mini-pairs
                 mini-ai
+                mini-pick
               ];
               treesitter = with pkgs.vimPlugins; [
                 nvim-treesitter-textobjects
@@ -195,11 +213,16 @@
               always = with pkgs.vimPlugins; [
                 nvim-lspconfig
                 gitsigns-nvim
-                # vim-sleuth
+                vim-sleuth
                 vim-fugitive
                 vim-rhubarb
                 nvim-surround
                 flash-nvim
+                none-ls-nvim
+
+                promise-async
+                nvim-ufo
+
               ];
               extra = with pkgs.vimPlugins; [
                 fidget-nvim
@@ -221,30 +244,7 @@
             ];
           };
 
-          # environmentVariables:
-          # this section is for environmentVariables that should be available
-          # at RUN TIME for plugins. Will be available to path within neovim terminal
           environmentVariables = {
-            test = {
-              default = {
-                CATTESTVARDEFAULT = "It worked!";
-              };
-              subtest1 = {
-                CATTESTVAR = "It worked!";
-              };
-              subtest2 = {
-                CATTESTVAR3 = "It didn't work!";
-              };
-            };
-          };
-
-          # If you know what these are, you can provide custom ones by category here.
-          # If you dont, check this link out:
-          # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/setup-hooks/make-wrapper.sh
-          extraWrapperArgs = {
-            test = [
-              ''--set CATTESTVAR2 "It worked again!"''
-            ];
           };
 
           # lists of the functions you would have passed to
@@ -304,7 +304,7 @@
       packageDefinitions = {
         # the name here is the name of the package
         # and also the default command name for it.
-        nixCats =
+        nvim =
           { pkgs, name, ... }@misc:
           {
             # these also recieve our pkgs variable
@@ -337,9 +337,9 @@
               lint = true;
               format = true;
               neonixdev = true;
-              test = {
-                subtest1 = true;
-              };
+              nix = true;
+              python = true;
+              vue = true;
 
               # enabling this category will enable the go category,
               # and ALSO debug.go and debug.default due to our extraCats in categoryDefinitions.

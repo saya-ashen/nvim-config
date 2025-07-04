@@ -1,5 +1,6 @@
 return {
-	{ "nui.nvim", event = "DeferredUIEnter", for_cat = "general.ui" },
+	{ "persistence.nvim", event = "BufReadPre", for_cat = "general.ui" },
+	{ "nvim-notify", event = "DeferredUIEnter", for_cat = "general.ui" },
 	{
 		"noice.nvim",
 		for_cat = "general.ui",
@@ -18,7 +19,7 @@ return {
     { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll Backward", mode = {"i", "n", "s"}},
     },
 		on_plugin = { "nui.nvim", "nvim-notify" },
-		after = function(plugin)
+		after = function()
 			require("noice").setup({
 				lsp = {
 					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
