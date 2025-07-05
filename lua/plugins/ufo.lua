@@ -12,7 +12,7 @@ return {
 				function()
 					require("ufo").closeAllFolds()
 				end,
-				desc = "Open yazi at the current file",
+				desc = "Close All Folds",
 			},
 			{
 				"zR",
@@ -20,7 +20,7 @@ return {
 				function()
 					require("ufo").openAllFolds()
 				end,
-				desc = "Open yazi at the current file",
+				desc = "Open All Folds",
 			},
 		},
 		after = function()

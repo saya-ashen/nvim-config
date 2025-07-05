@@ -167,7 +167,7 @@
               ai = with pkgs.vimPlugins; [
                 avante-nvim
                 telescope-nvim
-                snacks-nvim
+                # snacks-nvim
                 copilot-lua
                 mini-pick
                 render-markdown-nvim

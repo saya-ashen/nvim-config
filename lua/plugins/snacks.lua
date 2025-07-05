@@ -6,15 +6,30 @@ local function term_nav(dir)
 		end)
 	end
 end
-local notify = vim.notify
 return {
 	{
 		"snacks.nvim",
 		for_cat = "general.ui",
-
+		event = "VimEnter",
 		keys = {
 			{
 				"<c-/>",
+				mode = { "n" },
+				function()
+					Snacks.terminal()
+				end,
+				desc = "Toggle Terminal",
+			},
+			{
+				"",
+				mode = { "n" },
+				function()
+					Snacks.terminal()
+				end,
+				desc = "Toggle Terminal",
+			},
+			{
+				"<leader>ft",
 				function()
 					Snacks.terminal()
 				end,
@@ -22,9 +37,11 @@ return {
 			},
 		},
 		after = function()
+                        vim.keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+                        vim.keymap.set("t", "", "<cmd>close<cr>", { desc = "Hide Terminal" })
 			require("snacks").setup({
 				bigfile = { enabled = true },
-				explorer = { enabled = true },
+				explorer = { enabled = false },
 				dashboard = { enabled = false },
 				indent = { enabled = true },
 				input = { enabled = true },
