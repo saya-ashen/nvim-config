@@ -37,8 +37,8 @@ return {
 			},
 		},
 		after = function()
-                        vim.keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
-                        vim.keymap.set("t", "", "<cmd>close<cr>", { desc = "Hide Terminal" })
+			vim.keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+			vim.keymap.set("t", "", "<cmd>close<cr>", { desc = "Hide Terminal" })
 			require("snacks").setup({
 				bigfile = { enabled = true },
 				explorer = { enabled = false },
@@ -54,6 +54,8 @@ return {
 				words = { enabled = true },
 				terminal = {
 					enabled = true,
+                                        start_insert=false,
+                                        auto_insert=false,
 					win = {
 						keys = {
 							nav_h = { "<C-h>", term_nav("h"), desc = "Go to Left Window", expr = true, mode = "t" },
@@ -61,16 +63,14 @@ return {
 							nav_k = { "<C-k>", term_nav("k"), desc = "Go to Upper Window", expr = true, mode = "t" },
 							nav_l = { "<C-l>", term_nav("l"), desc = "Go to Right Window", expr = true, mode = "t" },
 						},
-					},
-					keys = {
 						term_normal = {
 							"<esc>",
-							function()
+							function(self)
 								vim.cmd("stopinsert")
 							end,
 							mode = "t",
 							expr = true,
-							desc = "Switch to normal mode from terminal mode (in snacks terminals)",
+							desc = "Double escape to normal mode",
 						},
 					},
 				},
