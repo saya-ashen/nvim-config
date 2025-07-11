@@ -35,6 +35,22 @@ return {
 				end,
 				desc = "Toggle Terminal",
 			},
+			{
+				"<leader>bd",
+				mode = { "n" },
+				function()
+					Snacks.bufdelete()
+				end,
+				desc = "Delete Buffer",
+			},
+			{
+				"<leader>bo",
+				mode = { "n" },
+				function()
+					Snacks.bufdelete.other()
+				end,
+				desc = "Delete Other Buffers",
+			},
 		},
 		after = function()
 			vim.keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
@@ -54,8 +70,8 @@ return {
 				words = { enabled = true },
 				terminal = {
 					enabled = true,
-                                        start_insert=false,
-                                        auto_insert=false,
+					start_insert = false,
+					auto_insert = false,
 					win = {
 						keys = {
 							nav_h = { "<C-h>", term_nav("h"), desc = "Go to Left Window", expr = true, mode = "t" },

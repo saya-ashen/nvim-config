@@ -45,7 +45,8 @@ require("lze").load({
 	{ import = "plugins.noice" },
 	{ import = "plugins.ufo" },
 	{ import = "plugins.avante" },
-	-- { import = "plugins.dashboard" },
+	{ import = "plugins.trouble" },
+	{ import = "plugins.persisted" },
 	{ import = "plugins.bufferline" },
 	{
 		"comment.nvim",
