@@ -40,13 +40,6 @@ require("lze").load({
 		end,
 	},
 	{
-		"none-ls.nvim",
-		for_cat = "general.always",
-		after = function()
-			require("null-ls")
-		end,
-	},
-	{
 		-- lazydev makes your lsp way better in your config without needing extra lsp configuration.
 		"lazydev.nvim",
 		for_cat = "neonixdev",
@@ -63,6 +56,6 @@ require("lze").load({
 	{ import = "plugins.lsp.lua_ls" },
 	{ import = "plugins.lsp.nixd" },
 	{ import = "plugins.lsp.basedpyright" },
-	{ import = "plugins.lsp.ty" },
-	{ import = "plugins.lsp.vue" },
+	{ import = "plugins.lsp.web" },
+	{ import = "plugins.lsp.json" },
 })

@@ -51,6 +51,22 @@ return {
 				end,
 				desc = "Delete Other Buffers",
 			},
+			{
+				"<leader>gg",
+				mode = { "n" },
+				function()
+                                        Snacks.lazygit.open()
+				end,
+				desc = "Open lazygit",
+			},
+			{
+				"<leader>n",
+				mode = { "n" },
+				function()
+                                        Snacks.notifier.show_history()
+				end,
+				desc = "Notification History",
+			},
 		},
 		after = function()
 			vim.keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
@@ -89,6 +105,11 @@ return {
 							desc = "Double escape to normal mode",
 						},
 					},
+				},
+				lazygit = {
+					enabled = true,
+					configure = true,
+
 				},
 			})
 		end,

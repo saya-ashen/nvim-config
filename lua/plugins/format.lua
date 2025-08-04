@@ -6,7 +6,19 @@ require("lze").load({
 		-- event = "",
 		-- ft = "",
 		keys = {
-			{ "<leader>cf", desc = "Format Code" },
+			{
+				"<leader>cf",
+				mode = { "n" },
+				noremap = true,
+				function()
+					require("conform").format({
+						lsp_fallback = true,
+						async = false,
+						timeout_ms = 1000,
+					})
+				end,
+				desc = "Format Code",
+			},
 		},
 		-- colorscheme = "",
 		after = function()
@@ -23,16 +35,18 @@ require("lze").load({
 					lua = { "stylua" },
 					nix = { "nixfmt" },
 					python = { "ruff" },
+					javascript = { "prettier" },
+					typescript = { "prettier" },
+					javascriptreact = { "prettier" },
+					typescriptreact = { "prettier" },
+                    json = {"prettier","jq"},
+				},
+				format_on_save = {
+					timeout_ms = 500,
+					lsp_fallback = true,
 				},
 			})
 
-			vim.keymap.set({ "n", "v" }, "<leader>cf", function()
-				conform.format({
-					lsp_fallback = true,
-					async = false,
-					timeout_ms = 1000,
-				})
-			end, { desc = "Format Code" })
 		end,
 	},
 })

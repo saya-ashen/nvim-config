@@ -31,7 +31,7 @@
           # this includes LSPs
           lspsAndRuntimeDeps = {
             general = with pkgs; [ universal-ctags ripgrep fd ];
-            lint = with pkgs; [ ];
+            lint = with pkgs; [eslint_d vale ];
             debug = with pkgs; { go = [ delve ]; };
             format = with pkgs; [ stylua ];
             nix = with pkgs; [
@@ -41,7 +41,9 @@
               nixfmt
             ];
             python = with pkgs; [ ruff ty basedpyright ];
-            vue = with pkgs; [ vue-language-server typescript-language-server ];
+            # vue = with pkgs; [ vue-language-server typescript-language-server ];
+            json = with pkgs;[vscode-langservers-extracted jq];
+            web = with pkgs; [vtsls];
             neonixdev = { inherit (pkgs) lua-language-server; };
           };
 
@@ -76,7 +78,6 @@
               ai = with pkgs.vimPlugins; [
                 avante-nvim
                 telescope-nvim
-                # snacks-nvim
                 copilot-lua
                 mini-pick
                 render-markdown-nvim
@@ -107,6 +108,7 @@
                 mini-pairs
                 mini-ai
                 mini-pick
+                mini-animate
               ];
               treesitter = with pkgs.vimPlugins; [
                 nvim-treesitter-textobjects
@@ -123,10 +125,12 @@
                   p.lua
                   p.make
                   p.nginx
+                  p.nix
                   p.python
                   p.sql
                   p.toml
                   p.typescript
+                  p.tsx
                   p.vue
                   p.yaml
                 ]))
@@ -144,7 +148,6 @@
                 vim-rhubarb
                 nvim-surround
                 flash-nvim
-                none-ls-nvim
                 trouble-nvim
                 promise-async
                 nvim-ufo
@@ -158,6 +161,7 @@
                 indent-blankline-nvim
                 vim-startuptime
               ];
+              code = with pkgs.vimPlugins;[aerial-nvim];
             };
           };
 
@@ -206,8 +210,8 @@
             neonixdev = true;
             nix = true;
             python = true;
-            vue = true;
-
+            web= true;
+            json = true;
             lspDebugMode = false;
             themer = true;
             colorscheme = "tokyonight";

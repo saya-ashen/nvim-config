@@ -79,4 +79,16 @@ return {
 			require("mini.ai").setup()
 		end,
 	},
+	{
+		"mini.animate",
+		event = "DeferredUIEnter",
+		opts = function()
+			local animate = require("mini.animate")
+			return {
+			}
+		end,
+		after = function()
+			require("mini.animate").setup()
+		end,
+	},
 }
