@@ -29,7 +29,7 @@ require("lze").load({
 				typescript = { "eslint_d" },
 				javascriptreact = { "eslint_d" },
 				typescriptreact = { "eslint_d" },
-                                python = { "ruff" },
+				python = { "ruff" },
 			}
 
 			vim.api.nvim_create_autocmd({ "BufWritePost" }, {

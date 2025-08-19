@@ -56,6 +56,7 @@ require("lze").load({
 	{ import = "plugins.lsp.lua_ls" },
 	{ import = "plugins.lsp.nixd" },
 	-- { import = "plugins.lsp.basedpyright" },
+	{ import = "plugins.lsp.ty" },
 	{ import = "plugins.lsp.web" },
 	{ import = "plugins.lsp.json" },
 })

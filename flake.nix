@@ -255,6 +255,7 @@
               python = true;
               web = true;
               json = true;
+              toml = true;
               lspDebugMode = false;
               themer = true;
               colorscheme = "tokyonight";

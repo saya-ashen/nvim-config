@@ -34,7 +34,7 @@ require("lze").load({
 				formatters_by_ft = {
 					lua = { "stylua" },
 					nix = { "nixfmt" },
-					python = { "ruff" },
+					python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
 					javascript = { "prettier" },
 					typescript = { "prettier" },
 					javascriptreact = { "prettier" },
@@ -43,7 +43,7 @@ require("lze").load({
 					json = { "prettier", "jq" },
 				},
 				format_on_save = {
-					timeout_ms = 500,
+					timeout_ms = 3000,
 					lsp_fallback = true,
 				},
 			})
