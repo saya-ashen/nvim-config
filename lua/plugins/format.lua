@@ -39,14 +39,14 @@ require("lze").load({
 					typescript = { "prettier" },
 					javascriptreact = { "prettier" },
 					typescriptreact = { "prettier" },
-                    json = {"prettier","jq"},
+					toml = { "taplo" },
+					json = { "prettier", "jq" },
 				},
 				format_on_save = {
 					timeout_ms = 500,
 					lsp_fallback = true,
 				},
 			})
-
 		end,
 	},
 })

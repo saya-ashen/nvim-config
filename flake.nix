@@ -6,7 +6,8 @@
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs =
+    { self, nixpkgs, ... }@inputs:
     let
       inherit (inputs.nixCats) utils;
       luaPath = ./.;
@@ -19,7 +20,16 @@
       # and
       # :help nixCats.flake.outputs.categoryDefinitions.scheme
       categoryDefinitions =
-        { pkgs, settings, categories, extra, name, mkPlugin, ... }@packageDef: {
+        {
+          pkgs,
+          settings,
+          categories,
+          extra,
+          name,
+          mkPlugin,
+          ...
+        }@packageDef:
+        {
           # to define and use a new category, simply add a new list to a set here,
           # and later, you will include categoryname = true; in the set you
           # provide when you build the package using this builder function.
@@ -30,9 +40,18 @@
           # at RUN TIME for plugins. Will be available to PATH within neovim terminal
           # this includes LSPs
           lspsAndRuntimeDeps = {
-            general = with pkgs; [ universal-ctags ripgrep fd ];
-            lint = with pkgs; [eslint_d vale ];
-            debug = with pkgs; { go = [ delve ]; };
+            general = with pkgs; [
+              universal-ctags
+              ripgrep
+              fd
+            ];
+            lint = with pkgs; [
+              eslint_d
+              vale
+            ];
+            debug = with pkgs; {
+              go = [ delve ];
+            };
             format = with pkgs; [ stylua ];
             nix = with pkgs; [
               nixd
@@ -40,10 +59,18 @@
               # nixfmt-rfc-style
               nixfmt
             ];
-            python = with pkgs; [ ruff ty basedpyright ];
+            toml = with pkgs; [ taplo ];
+            python = with pkgs; [
+              ruff
+              ty
+              basedpyright
+            ];
             # vue = with pkgs; [ vue-language-server typescript-language-server ];
-            json = with pkgs;[vscode-langservers-extracted jq];
-            web = with pkgs; [vtsls];
+            json = with pkgs; [
+              vscode-langservers-extracted
+              jq
+            ];
+            web = with pkgs; [ vtsls ];
             neonixdev = { inherit (pkgs) lua-language-server; };
           };
 
@@ -53,10 +80,16 @@
             general = with pkgs.vimPlugins; {
               # you can make subcategories!!!
               # (always isnt a special name, just the one I chose for this subcategory)
-              always = [ lze lzextras vim-repeat plenary-nvim ];
+              always = [
+                lze
+                lzextras
+                vim-repeat
+                plenary-nvim
+              ];
               extra = [ nvim-web-devicons ];
             };
-            themer = with pkgs.vimPlugins;
+            themer =
+              with pkgs.vimPlugins;
               (builtins.getAttr (categories.colorscheme or "tokyonight") {
                 "tokyonight" = tokyonight-nvim;
                 "tokyonight-day" = tokyonight-nvim;
@@ -67,7 +100,11 @@
           # `:NixCats pawsible` command to see them all
           optionalPlugins = {
             debug = with pkgs.vimPlugins; {
-              default = [ nvim-dap nvim-dap-ui nvim-dap-virtual-text ];
+              default = [
+                nvim-dap
+                nvim-dap-ui
+                nvim-dap-virtual-text
+              ];
               go = [ nvim-dap-go ];
             };
             lint = with pkgs.vimPlugins; [ nvim-lint ];
@@ -98,8 +135,9 @@
                 blink-cmp
                 blink-compat
                 colorful-menu-nvim
-                blink-cmp-avante
-                blink-cmp-copilot
+                # blink-cmp-avante
+                # blink-cmp-copilot
+                blink-copilot
               ];
               yazi = with pkgs.vimPlugins; [ yazi-nvim ];
               mini = with pkgs.vimPlugins; [
@@ -161,7 +199,7 @@
                 indent-blankline-nvim
                 vim-startuptime
               ];
-              code = with pkgs.vimPlugins;[aerial-nvim];
+              code = with pkgs.vimPlugins; [ aerial-nvim ];
             };
           };
 
@@ -180,108 +218,123 @@
       packageDefinitions = {
         # the name here is the name of the package
         # and also the default command name for it.
-        nvim = { pkgs, name, ... }@misc: {
-          # these also recieve our pkgs variable
-          # see :help nixCats.flake.outputs.packageDefinitions
-          settings = {
-            suffix-path = true;
-            suffix-LD = true;
-            # The name of the package, and the default launch name,
-            # and the name of the .desktop file, is `nixCats`,
-            # or, whatever you named the package definition in the packageDefinitions set.
-            # WARNING: MAKE SURE THESE DONT CONFLICT WITH OTHER INSTALLED PACKAGES ON YOUR PATH
-            # That would result in a failed build, as nixos and home manager modules validate for collisions on your path
-            aliases = [ "vim" "vimcat" ];
-
-            # explained below in the `regularCats` package's definition
-            # OR see :help nixCats.flake.outputs.settings for all of the settings available
-            wrapRc = true;
-            configDirName = "nixCats-nvim";
-            # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
-            hosts.python3.enable = true;
-            hosts.node.enable = true;
-          };
-          # enable the categories you want from categoryDefinitions
-          categories = {
-            markdown = true;
-            general = true;
-            lint = true;
-            format = true;
-            neonixdev = true;
-            nix = true;
-            python = true;
-            web= true;
-            json = true;
-            lspDebugMode = false;
-            themer = true;
-            colorscheme = "tokyonight";
-          };
-          extra = {
-            # to keep the categories table from being filled with non category things that you want to pass
-            # there is also an extra table you can use to pass extra stuff.
-            # but you can pass all the same stuff in any of these sets and access it in lua
-            nixdExtras = {
-              nixpkgs = "import ${pkgs.path} {}";
-              # or inherit nixpkgs;
-            };
-          };
-        };
-        regularCats = { pkgs, ... }@misc: {
-          settings = {
-            suffix-path = true;
-            suffix-LD = true;
-            # IMPURE PACKAGE: normal config reload
-            # include same categories as main config,
-            # will load from vim.fn.stdpath('config')
-            wrapRc = false;
-            # or tell it some other place to load
-            # unwrappedCfgPath = "/some/path/to/your/config";
-
-            # configDirName: will now look for nixCats-nvim within .config and .local and others
-            # this can be changed so that you can choose which ones share data folders for auths
-            # :h $NVIM_APPNAME
-            configDirName = "nixCats-nvim";
-
-            aliases = [ "testCat" ];
-
-            # If you wanted nightly, uncomment this, and the flake input.
-            # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
-            # Probably add the cache stuff they recommend too.
-          };
-          categories = {
-            markdown = true;
-            general = true;
-            neonixdev = true;
-            lint = true;
-            format = true;
-            # test = true;
-            lspDebugMode = false;
-            themer = true;
-            colorscheme = "tokyonight";
-          };
-          extra = {
-            # nixCats.extra("path.to.val") will perform vim.tbl_get(nixCats.extra, "path" "to" "val")
-            # this is different from the main nixCats("path.to.cat") in that
-            # the main nixCats("path.to.cat") will report true if `path.to = true`
-            # even though path.to.cat would be an indexing error in that case.
-            # this is to mimic the concept of "subcategories" but may get in the way of just fetching values.
-            nixdExtras = {
-              nixpkgs = "import ${pkgs.path} {}";
-              # or inherit nixpkgs;
-            };
-            # yes even tortured inputs work.
-            theBestCat = "says meow!!";
-            theWorstCat = {
-              thing'1 = [ "MEOW" '']]' ]=][=[HISSS]]"[['' ];
-              thing2 = [
-                { thing3 = [ "give" "treat" ]; }
-                "I LOVE KEYBOARDS"
-                (utils.mkLuaInline ''[[I am a]] .. [[ lua ]] .. type("value")'')
+        nvim =
+          { pkgs, name, ... }@misc:
+          {
+            # these also recieve our pkgs variable
+            # see :help nixCats.flake.outputs.packageDefinitions
+            settings = {
+              suffix-path = true;
+              suffix-LD = true;
+              # The name of the package, and the default launch name,
+              # and the name of the .desktop file, is `nixCats`,
+              # or, whatever you named the package definition in the packageDefinitions set.
+              # WARNING: MAKE SURE THESE DONT CONFLICT WITH OTHER INSTALLED PACKAGES ON YOUR PATH
+              # That would result in a failed build, as nixos and home manager modules validate for collisions on your path
+              aliases = [
+                "vim"
+                "vimcat"
               ];
-              thing4 = "couch is for scratching";
+
+              # explained below in the `regularCats` package's definition
+              # OR see :help nixCats.flake.outputs.settings for all of the settings available
+              wrapRc = true;
+              configDirName = "nixCats-nvim";
+              # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+              hosts.python3.enable = true;
+              hosts.node.enable = true;
+            };
+            # enable the categories you want from categoryDefinitions
+            categories = {
+              markdown = true;
+              general = true;
+              lint = true;
+              format = true;
+              neonixdev = true;
+              nix = true;
+              python = true;
+              web = true;
+              json = true;
+              lspDebugMode = false;
+              themer = true;
+              colorscheme = "tokyonight";
+            };
+            extra = {
+              # to keep the categories table from being filled with non category things that you want to pass
+              # there is also an extra table you can use to pass extra stuff.
+              # but you can pass all the same stuff in any of these sets and access it in lua
+              nixdExtras = {
+                nixpkgs = "import ${pkgs.path} {}";
+                # or inherit nixpkgs;
+              };
             };
           };
-        };
+        regularCats =
+          { pkgs, ... }@misc:
+          {
+            settings = {
+              suffix-path = true;
+              suffix-LD = true;
+              # IMPURE PACKAGE: normal config reload
+              # include same categories as main config,
+              # will load from vim.fn.stdpath('config')
+              wrapRc = false;
+              # or tell it some other place to load
+              # unwrappedCfgPath = "/some/path/to/your/config";
+
+              # configDirName: will now look for nixCats-nvim within .config and .local and others
+              # this can be changed so that you can choose which ones share data folders for auths
+              # :h $NVIM_APPNAME
+              configDirName = "nixCats-nvim";
+
+              aliases = [ "testCat" ];
+
+              # If you wanted nightly, uncomment this, and the flake input.
+              # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+              # Probably add the cache stuff they recommend too.
+            };
+            categories = {
+              markdown = true;
+              general = true;
+              neonixdev = true;
+              lint = true;
+              format = true;
+              # test = true;
+              lspDebugMode = false;
+              themer = true;
+              colorscheme = "tokyonight";
+            };
+            extra = {
+              # nixCats.extra("path.to.val") will perform vim.tbl_get(nixCats.extra, "path" "to" "val")
+              # this is different from the main nixCats("path.to.cat") in that
+              # the main nixCats("path.to.cat") will report true if `path.to = true`
+              # even though path.to.cat would be an indexing error in that case.
+              # this is to mimic the concept of "subcategories" but may get in the way of just fetching values.
+              nixdExtras = {
+                nixpkgs = "import ${pkgs.path} {}";
+                # or inherit nixpkgs;
+              };
+              # yes even tortured inputs work.
+              theBestCat = "says meow!!";
+              theWorstCat = {
+                thing'1 = [
+                  "MEOW"
+                  '']]' ]=][=[HISSS]]"[[''
+                ];
+                thing2 = [
+                  {
+                    thing3 = [
+                      "give"
+                      "treat"
+                    ];
+                  }
+                  "I LOVE KEYBOARDS"
+                  (utils.mkLuaInline ''[[I am a]] .. [[ lua ]] .. type("value")'')
+                ];
+                thing4 = "couch is for scratching";
+              };
+            };
+          };
       };
 
       defaultPackageName = "nvim";
@@ -301,12 +354,19 @@
       # you shouldnt need to change much past here, but you can if you wish.
       # but you should at least eventually try to figure out whats going on here!
       # see :help nixCats.flake.outputs.exports
-    in forEachSystem (system:
+    in
+    forEachSystem (
+      system:
       let
         # and this will be our builder! it takes a name from our packageDefinitions as an argument, and builds an nvim.
         nixCatsBuilder = utils.baseBuilder luaPath {
           # we pass in the things to make a pkgs variable to build nvim with later
-          inherit nixpkgs system dependencyOverlays extra_pkg_config;
+          inherit
+            nixpkgs
+            system
+            dependencyOverlays
+            extra_pkg_config
+            ;
           # and also our categoryDefinitions and packageDefinitions
         } categoryDefinitions packageDefinitions;
         # call it with our defaultPackageName
@@ -317,7 +377,8 @@
         pkgs = import nixpkgs { inherit system; };
         # The one used to build neovim is resolved inside the builder
         # and is passed to our categoryDefinitions and packageDefinitions
-      in {
+      in
+      {
         # these outputs will be wrapped with ${system} by utils.eachSystem
 
         # this will generate a set of all the packages
@@ -337,20 +398,38 @@
           };
         };
 
-      }) // (let
+      }
+    )
+    // (
+      let
         # we also export a nixos module to allow reconfiguration from configuration.nix
         nixosModule = utils.mkNixosModules {
           moduleNamespace = [ defaultPackageName ];
-          inherit defaultPackageName dependencyOverlays luaPath
-            categoryDefinitions packageDefinitions extra_pkg_config nixpkgs;
+          inherit
+            defaultPackageName
+            dependencyOverlays
+            luaPath
+            categoryDefinitions
+            packageDefinitions
+            extra_pkg_config
+            nixpkgs
+            ;
         };
         # and the same for home manager
         homeModule = utils.mkHomeModules {
           moduleNamespace = [ defaultPackageName ];
-          inherit defaultPackageName dependencyOverlays luaPath
-            categoryDefinitions packageDefinitions extra_pkg_config nixpkgs;
+          inherit
+            defaultPackageName
+            dependencyOverlays
+            luaPath
+            categoryDefinitions
+            packageDefinitions
+            extra_pkg_config
+            nixpkgs
+            ;
         };
-      in {
+      in
+      {
 
         # these outputs will be NOT wrapped with ${system}
 
@@ -365,6 +444,7 @@
 
         inherit utils nixosModule homeModule;
         inherit (utils) templates;
-      });
+      }
+    );
 
 }

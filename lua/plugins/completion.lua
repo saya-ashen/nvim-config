@@ -38,13 +38,13 @@ return {
 		for_cat = "general.blink",
 		on_plugin = { "blink.cmp" },
 	},
+	-- {
+	-- 	"blink-cmp-avante",
+	-- 	for_cat = "general.blink",
+	-- 	on_plugin = { "blink.cmp" },
+	-- },
 	{
-		"blink-cmp-avante",
-		for_cat = "general.blink",
-		on_plugin = { "blink.cmp" },
-	},
-	{
-		"blink-cmp-copilot",
+		"blink-copilot",
 		for_cat = "general.blink",
 		on_plugin = { "blink.cmp" },
 	},
@@ -130,7 +130,7 @@ return {
 					end,
 				},
 				sources = {
-					default = { "lsp", "path", "snippets", "buffer", "omni", "avante" },
+					default = { "lsp", "path", "snippets", "buffer", "copilot", "omni" },
 					providers = {
 						path = {
 							score_offset = 50,
@@ -149,12 +149,11 @@ return {
 								cmp_name = "cmdline",
 							},
 						},
-						avante = {
-							module = "blink-cmp-avante",
-							name = "Avante",
-							opts = {
-								-- options for blink-cmp-avante
-							},
+						copilot = {
+							name = "copilot",
+							module = "blink-copilot",
+							score_offset = 100,
+							async = true,
 						},
 					},
 				},

@@ -40,6 +40,7 @@ vim.o.shiftwidth = 4
 
 -- stops line wrapping from being confusing
 vim.o.breakindent = true
+vim.o.wrap = false
 
 -- Save undo history
 vim.o.undofile = true
@@ -172,4 +173,4 @@ vim.keymap.set("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning"
 vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 vim.keymap.set("n", "gd", function()
 	require("telescope.builtin").lsp_definitions()
-end, {desc="[G]oto [D]efinition"})
+end, { desc = "[G]oto [D]efinition" })
