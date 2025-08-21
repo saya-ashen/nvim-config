@@ -147,6 +147,7 @@
                 mini-ai
                 mini-pick
                 mini-animate
+                mini-bufremove
               ];
               treesitter = with pkgs.vimPlugins; [
                 nvim-treesitter-textobjects
@@ -202,6 +203,12 @@
                 todo-comments-nvim
                 toggleterm-nvim
                 diffview-nvim
+                oil-nvim
+                nvim-spectre
+                project-nvim
+                vim-illuminate
+                statuscol-nvim
+                nvim-spider
               ];
               code = with pkgs.vimPlugins; [ aerial-nvim ];
             };

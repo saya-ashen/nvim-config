@@ -52,6 +52,12 @@ require("lze").load({
 	{ import = "plugins.todo-comments" },
 	{ import = "plugins.toggleterm" },
 	{ import = "plugins.diffview" },
+	{ import = "plugins.oil" },
+	{ import = "plugins.spectre" },
+	{ import = "plugins.project" },
+	{ import = "plugins.illuminate" },
+	{ import = "plugins.statuscol" },
+	{ import = "plugins.spider" },
 	{
 		"comment.nvim",
 		for_cat = "general.extra",
