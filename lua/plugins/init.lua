@@ -48,6 +48,10 @@ require("lze").load({
 	{ import = "plugins.trouble" },
 	{ import = "plugins.persisted" },
 	{ import = "plugins.bufferline" },
+	{ import = "plugins.neo-tree" },
+	{ import = "plugins.todo-comments" },
+	{ import = "plugins.toggleterm" },
+	{ import = "plugins.diffview" },
 	{
 		"comment.nvim",
 		for_cat = "general.extra",

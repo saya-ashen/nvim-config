@@ -198,6 +198,10 @@
                 undotree
                 indent-blankline-nvim
                 vim-startuptime
+                neo-tree-nvim
+                todo-comments-nvim
+                toggleterm-nvim
+                diffview-nvim
               ];
               code = with pkgs.vimPlugins; [ aerial-nvim ];
             };

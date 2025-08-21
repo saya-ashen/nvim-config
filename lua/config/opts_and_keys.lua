@@ -124,6 +124,11 @@ vim.o.foldcolumn = "1" -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
+-- These settings help prevent auto-folding issues
+vim.o.foldmethod = "manual" -- UFO will handle the fold method
+vim.o.foldnestmax = 1 -- Limit fold nesting
+-- Prevent automatic folding on certain events
+vim.opt.sessionoptions:remove("folds")
 
 -- kickstart.nvim starts you with this.
 -- But it constantly clobbers your system clipboard whenever you delete anything.
