@@ -8,6 +8,12 @@ return {
 		-- but with a default on_attach and capabilities
 		lsp = {
 			filetypes = { "python" },
+			on_attach = function(client, bufnr)
+				-- 首先，运行通用的 on_attach 函数
+				require("plugins.lsp.on_attach")
+
+				client.server_capabilities.definitionProvider = false
+			end,
 			settings = {
 				basedpyright = {
 					analysis = {
@@ -15,6 +21,7 @@ return {
 						diagnosticMode = "openFilesOnly",
 						typeCheckingMode = "basic",
 						useLibraryCodeForTypes = true,
+						-- autoImportCompletions = false,
 					},
 				},
 			},
